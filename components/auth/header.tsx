@@ -10,7 +10,8 @@ const font = Poppins({
 interface headerProps{
     label: string
 }
-const header = ({ label} : headerProps) => {
+
+const Header = ({ label }: headerProps) => {
   return (
       <div className='w-full flex flex-col gap-4 items-center justify-center '>
           <h1 className={cn("text-3xl font-serif ", font.className)}>
@@ -20,4 +21,4 @@ const header = ({ label} : headerProps) => {
   )
 }
 
-export default header
+export default Header
