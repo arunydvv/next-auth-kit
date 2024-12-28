@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState, useTransition } from 'react'
 import CardWrapper from './CardWrapper'
 import LoginButton from './LoginButton'
 import { useForm } from 'react-hook-form'
@@ -11,11 +11,16 @@ import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { FormError } from '../ui/formError'
 import { FormSuccess } from '../ui/FormSuccess'
+import { login } from '@/actions/login'
 
 
 
 
 const LoginForm = () => {
+    const [error, setError] = useState<string | undefined>("")
+    const [success, setSuccess] = useState<string | undefined>("")
+
+    const [isPending, startTransition] = useTransition()
     const form = useForm<z.infer<typeof LoginSchema>>({
         resolver: zodResolver(LoginSchema),
         defaultValues: {
@@ -24,8 +29,15 @@ const LoginForm = () => {
         },
     })
 
-    const onSubmit = (values : z.infer<typeof LoginSchema>) => { 
-        console.log(values)
+    const onSubmit = async (values: z.infer<typeof LoginSchema>) => { 
+        setError("");
+        setSuccess("");
+        startTransition(() => {
+            login(values).then((data) => {
+                setError(data.error);
+                setSuccess(data.success);
+            })
+        })
     }
 
     return (
@@ -52,6 +64,7 @@ const LoginForm = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             placeholder='example@email.com'
                                         type='email'>
                                             
@@ -74,6 +87,7 @@ const LoginForm = () => {
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled={isPending}
                                             placeholder='********'
                                             type='password'>
 
@@ -87,9 +101,10 @@ const LoginForm = () => {
                         </FormField>
 
                     </div>
-                    {/* <FormError message='Something went wrong'/>
-                    <FormSuccess message='Email Sent'/> */}
+                    <FormError message={error}/>
+                    <FormSuccess message={success} />
                     <Button
+                        disabled={isPending}
                         type='submit'
                         className='w-full'
                     >
