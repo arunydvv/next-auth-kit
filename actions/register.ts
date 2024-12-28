@@ -1,11 +1,12 @@
 "use server"
-import { LoginSchema } from "@/schemas"
+
+import { RegisterSchema } from "@/schemas"
 import { z } from "zod"
 
 // we are using server actions here
 
-export const login = async (values: z.infer<typeof LoginSchema>) => {
-    const validatedFields = LoginSchema.safeParse(values)
+export const register = async (values: z.infer<typeof RegisterSchema>) => {
+    const validatedFields = RegisterSchema.safeParse(values)
 
     if (!validatedFields.success) {
         return {

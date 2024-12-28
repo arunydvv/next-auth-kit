@@ -1,39 +1,38 @@
 "use client"
 import React, { useState, useTransition } from 'react'
 import CardWrapper from './CardWrapper'
-import LoginButton from './LoginButton'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormItem, FormLabel, FormField, FormControl, FormMessage } from '../ui/form'
 import { z } from 'zod'
-import { LoginSchema } from '@/schemas'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { FormError } from '../ui/formError'
 import { FormSuccess } from '../ui/FormSuccess'
-import { login } from '@/actions/login'
+import { register } from '@/actions/register'
+import { RegisterSchema } from '@/schemas'
 
 
 
 
-const LoginForm = () => {
+const RegisterForm = () => {
     const [error, setError] = useState<string | undefined>("")
     const [success, setSuccess] = useState<string | undefined>("")
 
     const [isPending, startTransition] = useTransition()
-    const form = useForm<z.infer<typeof LoginSchema>>({
-        resolver: zodResolver(LoginSchema),
+    const form = useForm<z.infer<typeof RegisterSchema>>({
+        resolver: zodResolver(RegisterSchema),
         defaultValues: {
             email: "",
             password: "",
         },
     })
 
-    const onSubmit = async (values: z.infer<typeof LoginSchema>) => { 
+    const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
         setError("");
         setSuccess("");
         startTransition(() => {
-            login(values).then((data) => {
+            register(values).then((data) => {
                 setError(data.error);
                 setSuccess(data.success);
             })
@@ -42,21 +41,44 @@ const LoginForm = () => {
 
     return (
         <CardWrapper
-            headerLabel="Welcome back!"
-            backButtonLabel="Don't have an Account?"
-            backButtonHref="/auth/register"
+            headerLabel="Create an Account"
+            backButtonLabel="Already have an Account?"
+            backButtonHref="/auth/login"
             showSocial
         >
             <Form
-            {...form}
+                {...form}
             >
                 <form onSubmit={form.handleSubmit(onSubmit)}
                     className='space-y-6'>
                     <div className='space-y-4'>
                         <FormField
-                            control={form.control }
+                            control={form.control}
+                            name='name'
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        Name
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            {...field}
+                                            disabled={isPending}
+                                            placeholder='Alice Bob'
+                                            type='name'>
+
+                                        </Input>
+
+                                    </FormControl>
+                                    <FormMessage></FormMessage>
+                                </FormItem>
+                            )}>
+
+                        </FormField>
+                        <FormField
+                            control={form.control}
                             name='email'
-                            render={({field}) => (
+                            render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>
                                         Email
@@ -66,14 +88,14 @@ const LoginForm = () => {
                                             {...field}
                                             disabled={isPending}
                                             placeholder='example@email.com'
-                                        type='email'>
-                                            
-                                        </Input> 
+                                            type='email'>
+
+                                        </Input>
 
                                     </FormControl>
                                     <FormMessage></FormMessage>
-                            </FormItem>
-                        )}>
+                                </FormItem>
+                            )}>
 
                         </FormField>
                         <FormField
@@ -101,14 +123,14 @@ const LoginForm = () => {
                         </FormField>
 
                     </div>
-                    <FormError message={error}/>
+                    <FormError message={error} />
                     <FormSuccess message={success} />
                     <Button
                         disabled={isPending}
                         type='submit'
                         className='w-full'
                     >
-                        Log In
+                        Create an Account
 
                     </Button>
                 </form>
@@ -118,5 +140,5 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm
+export default RegisterForm
 
