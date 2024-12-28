@@ -9,6 +9,8 @@ import { z } from 'zod'
 import { LoginSchema } from '@/schemas'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import { FormError } from '../ui/formError'
+import { FormSuccess } from '../ui/FormSuccess'
 
 
 
@@ -21,6 +23,11 @@ const LoginForm = () => {
             password: "",
         },
     })
+
+    const onSubmit = (values : z.infer<typeof LoginSchema>) => { 
+        console.log(values)
+    }
+
     return (
         <CardWrapper
             headerLabel="Welcome Back"
@@ -31,7 +38,7 @@ const LoginForm = () => {
             <Form
             {...form}
             >
-                <form onSubmit={form.handleSubmit(() => { })}
+                <form onSubmit={form.handleSubmit(onSubmit)}
                     className='space-y-6'>
                     <div className='space-y-4'>
                         <FormField
@@ -80,6 +87,8 @@ const LoginForm = () => {
                         </FormField>
 
                     </div>
+                    {/* <FormError message='Something went wrong'/>
+                    <FormSuccess message='Email Sent'/> */}
                     <Button
                         type='submit'
                         className='w-full'
