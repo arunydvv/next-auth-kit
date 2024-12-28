@@ -5,13 +5,15 @@ import LoginButton from './LoginButton'
 const LoginForm = () => {
     return (
         <CardWrapper
-            children={<LoginButton mode='modal'>Login with Google</LoginButton>}
-            headerLabel="Login"
-            backButtonLabel="Back"
-            backButtonHref="/"
-            showSocial={true}
-        />
+            headerLabel="Welcome Back"
+            backButtonLabel="Don't have an Account?"
+            backButtonHref="/auth/register"
+            showSocial
+        >
+            LoginForm!
+        </CardWrapper>
     )
 }
 
 export default LoginForm
+
