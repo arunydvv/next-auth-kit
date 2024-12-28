@@ -27,7 +27,7 @@ export default function Home() {
             </Link>
           </p>
           <div>
-            <LoginButton>
+            <LoginButton mode="modal">
               <Button variant={"secondary"} size="lg">
                 Login
               </Button>

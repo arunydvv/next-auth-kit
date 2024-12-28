@@ -1,4 +1,6 @@
 "use client"
+import { useRouter } from 'next/navigation'
+import { space } from 'postcss/lib/list'
 import React from 'react'
 
 interface LoginButtonProps{
@@ -9,11 +11,20 @@ interface LoginButtonProps{
 
 
 const LoginButton = ({ children, mode = "redirect", asChild }: LoginButtonProps) => {
+    const router = useRouter()
+
 
     const onClick = () => { 
-        console.log("Login Button Clicked")
+       router.push("/auth/login")
     }
     
+    if (mode == "modal") {
+        return (
+            <span>
+                TODO: Implement Modal
+            </span>
+        )
+    }
 
 
   return (
