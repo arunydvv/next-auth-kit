@@ -13,10 +13,11 @@ interface headerProps{
 
 const Header = ({ label }: headerProps) => {
   return (
-      <div className='w-full flex flex-col gap-4 items-center justify-center '>
-          <h1 className={cn("text-3xl font-serif ", font.className)}>
+      <div className='w-full flex flex-col gap-1 items-center justify-center '>
+          <h1 className={cn("text-4xl font-serif ", font.className)}>
               Auth
           </h1>
+          <p>{label}</p>
     </div>
   )
 }
