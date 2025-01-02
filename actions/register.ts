@@ -34,6 +34,8 @@ export const register = async (
       name,
     },
   });
+  
+  // Send Verification token Email
 
   return {
     success: "User Created",
